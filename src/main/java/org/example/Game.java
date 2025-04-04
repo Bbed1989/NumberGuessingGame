@@ -18,7 +18,7 @@ public class Game {
     public void processGuess(int difficultyLevel) throws IOException {
         int guess = gameUI.getUserGuess();
         int secretNumber = (int) (Math.random() * 100 + 1);
-        int attempts = 0;
+        int attempts = 1;
         int guessNumber = getGuessNumber(difficultyLevel);
         for(int i = 1; i < guessNumber; i++){
             if(guess == secretNumber) {

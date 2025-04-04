@@ -33,13 +33,17 @@ public class Scoreboard {
     }
 
     private void changeScore(List<Map<String, Object>> scores, int level, int attempts) throws IOException {
-        Map<String, Object> newScore = new HashMap<>();
+        boolean isUpdated = false;
         for (Map<String, Object> scoreMap : scores) {
-            if (Integer.parseInt(scoreMap.get("level").toString()) == level) {
-                newScore.put("attempts", attempts);
-                scores.add(newScore);
-                write(scores);
+            if (Integer.parseInt(scoreMap.get("level").toString()) == level
+                    && Integer.parseInt(scoreMap.get("attempts").toString()) > attempts) {
+                scoreMap.put("attempts", attempts);
+                isUpdated = true;
+                break;
             }
+        }
+        if (isUpdated){
+            write(scores);
         }
     }
 
