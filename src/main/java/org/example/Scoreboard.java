@@ -1,10 +1,7 @@
 package org.example;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Scoreboard {
@@ -13,16 +10,32 @@ public class Scoreboard {
 
     void updateHighScore(int level, int attempts) throws IOException {
         List<Map<String, Object>> scores = readScores();
-        if (scores.isEmpty()) {
+        String levelKey = String.valueOf(level);
+
+        Optional<Map<String, Object>> existingScore = scores.stream().
+                filter(u -> u.get("level").equals(levelKey)).
+                findFirst();
+
+        if (existingScore.isEmpty()) {
             addScore(scores, level, attempts);
         } else {
             changeScore(scores, level, attempts);
         }
-    };
+    }
 
-    void showHighScores(){
+    void showHighScores() throws IOException {
+        List<Map<String, Object>> scores = readScores();
+        System.out.println("# Scoreboard");
+        System.out.println("#  Level   Attempts");
+        System.out.println("# -----------------");
 
-    };
+        for (Map<String, Object> score : scores) {
+            System.out.printf("#   %-1d          %-2d\n",
+                    Integer.parseInt(score.get("level").toString()),
+                    Integer.parseInt(score.get("attempts").toString()));
+        }
+
+    }
 
     private void addScore(List<Map<String, Object>> scores, int level, int attempts) throws IOException {
         Map<String, Object> newScore = new HashMap<>();

@@ -13,6 +13,7 @@ public class Game {
         int difficultyLevel = gameUI.getDifficultyLevel();
         processGuess(difficultyLevel);
         gameTimer.stopTimer();
+        gameScoreboard.showHighScores();
     }
 
     public void processGuess(int difficultyLevel) throws IOException {
